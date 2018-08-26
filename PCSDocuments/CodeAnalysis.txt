@@ -1,0 +1,48 @@
+Space 키 눌렀을 때 
+
+	PhysX3DEBUG_x64.dll!physx::NpRigidDynamicGetShapes(physx::Scb::Body & body, void * const * & shapes) Line 452	C++
+ 	PhysX3DEBUG_x64.dll!addOrRemoveRigidObject<0,1,1,0,physx::Scb::Body>(physx::Sc::Scene & s, physx::Scb::Body & rigidObject, bool wakeOnLostTouch, physx::PxBounds3 * uninflatedBounds) Line 1429	C++
+ 	PhysX3DEBUG_x64.dll!ScSceneFns<physx::Scb::Body>::insert(physx::Sc::Scene & s, physx::Scb::Body & v, physx::PxBounds3 * uninflatedBounds) Line 243	C++
+ 	PhysX3DEBUG_x64.dll!physx::Scb::Scene::add<physx::Scb::Body>(physx::Scb::Body & v, physx::Scb::ObjectTracker & tracker, physx::PxBounds3 * uninflatedBounds) Line 401	C++
+ 	PhysX3DEBUG_x64.dll!physx::Scb::Scene::addActorT<1,physx::Scb::Body>(physx::Scb::Body & actor, physx::Scb::ObjectTracker & tracker, bool noSim, physx::PxBounds3 * uninflatedBounds) Line 550	C++
+ 	PhysX3DEBUG_x64.dll!physx::Scb::Scene::addActor(physx::Scb::Body & body, bool noSim, physx::PxBounds3 * uninflatedBounds) Line 571	C++
+ 	PhysX3DEBUG_x64.dll!addActorT<physx::NpRigidDynamic,physx::Scb::Body>(physx::NpRigidDynamic & actor, physx::Scb::Body & scbActor, physx::shdfnd::Array<physx::PxRigidActor *,physx::shdfnd::NamedAllocator> & actors, physx::NpScene * scene, bool hasPrunerStructure) Line 852	C++
+ 	PhysX3DEBUG_x64.dll!physx::NpScene::addRigidDynamic(physx::NpRigidDynamic & body, bool hasPrunerStructure) Line 866	C++
+ 	PhysX3DEBUG_x64.dll!physx::NpScene::addActorInternal(physx::PxActor & actor) Line 420	C++
+ 	PhysX3DEBUG_x64.dll!physx::NpScene::addActor(physx::PxActor & actor) Line 394	C++
+ 	SnippetHelloWorldDEBUG.exe!createDynamic(const physx::PxTransform & t, const physx::PxGeometry & geometry, const physx::PxVec3 & velocity) Line 69	C++
+>	SnippetHelloWorldDEBUG.exe!keyPress(unsigned char key, const physx::PxTransform & camera) Line 154	C++
+ 	SnippetHelloWorldDEBUG.exe!`anonymous namespace'::keyboardCallback(unsigned char key, int x, int y) Line 63	C++
+ 	glut32.dll!000000018000b64f()	Unknown
+ 	glut32.dll!000000018000bd4c()	Unknown
+ 	[External Code]	
+ 	glut32.dll!0000000180003469()	Unknown
+ 	glut32.dll!00000001800035b9()	Unknown
+ 	glut32.dll!0000000180003bd1()	Unknown
+ 	SnippetHelloWorldDEBUG.exe!renderLoop() Line 119	C++
+ 	SnippetHelloWorldDEBUG.exe!snippetMain(int __formal, const char * const * __formal) Line 169	C++
+ 	SnippetHelloWorldDEBUG.exe!main(int argc, char * * argv) Line 35	C++
+
+'B' 키를 눌렀을 때
+
+>	PhysX3DEBUG_x64.dll!physx::NpFactory::createRigidDynamic(const physx::PxTransform & pose) Line 911	C++
+ 	PhysX3DEBUG_x64.dll!physx::NpPhysics::createRigidDynamic(const physx::PxTransform & globalPose) Line 431	C++
+ 	SnippetHelloWorldDEBUG.exe!createStack(const physx::PxTransform & t, unsigned int size, float halfExtent) Line 80	C++
+ 	SnippetHelloWorldDEBUG.exe!keyPress(unsigned char key, const physx::PxTransform & camera) Line 151	C++
+ 	SnippetHelloWorldDEBUG.exe!`anonymous namespace'::keyboardCallback(unsigned char key, int x, int y) Line 63	C++
+ 	glut32.dll!000000018000b64f()	Unknown
+ 	glut32.dll!000000018000bd4c()	Unknown
+ 	[External Code]	
+ 	glut32.dll!0000000180003469()	Unknown
+ 	glut32.dll!00000001800035b9()	Unknown
+ 	glut32.dll!0000000180003bd1()	Unknown
+ 	SnippetHelloWorldDEBUG.exe!renderLoop() Line 119	C++
+ 	SnippetHelloWorldDEBUG.exe!snippetMain(int __formal, const char * const * __formal) Line 169	C++
+ 	SnippetHelloWorldDEBUG.exe!main(int argc, char * * argv) Line 35	C++
+
+에서
+
+	NpRigidDynamic* npBody; 의 로컬 변수에 NpRigidDynamic 객체가 생성되어 할당됨
+	여기서
+	&(npBody->mBody.mBodyCore.mCore.body2World.p.z)
+	의 주소값을 알아내고 여기 주소값이 참조하는 값이 변경될 때를 디버깅하여 PhysX Solver를 분석하자

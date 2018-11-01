@@ -46,3 +46,18 @@ Space 키 눌렀을 때
 	여기서
 	&(npBody->mBody.mBodyCore.mCore.body2World.p.z)
 	의 주소값을 알아내고 여기 주소값이 참조하는 값이 변경될 때를 디버깅하여 PhysX Solver를 분석하자
+
+
+
+Space 키를 눌러서 공이 날아가는 경우
+ 	PhysX3DEBUG_x64.dll!physx::PxVec3::operator=(const physx::PxVec3 & p) Line 106	C++
+ 	[External Code]	
+>	PhysX3DEBUG_x64.dll!physx::Dy::PxsSolverSetupSolveTask::runInternal() Line 1856	C++
+ 	PhysX3DEBUG_x64.dll!physx::Cm::Task::run() Line 67	C++
+ 	SnippetHelloWorldDEBUG.exe!physx::Ext::DefaultCpuDispatcher::runTask(physx::PxBaseTask & task) Line 97	C++
+ 	SnippetHelloWorldDEBUG.exe!physx::Ext::CpuWorkerThread::execute() Line 97	C++
+ 	PxFoundationDEBUG_x64.dll!physx::shdfnd::`anonymous namespace'::PxThreadStart(void * arg) Line 100	C++
+의 콜스택을 통해 공의 좌표가 바뀜
+	PhysX3DEBUG_x64.dll!physx::Dy::PxsSolverSetupSolveTask::runInternal() Line 1856	C++ 함수의 
+	integrateCore(mThreadContext.motionVelocityArray[k].linear, mThreadContext.motionVelocityArray[k].angular,
+							solverBodies[k], solverBodyData, mContext.mDt); 에서 공의 linear angular velocity 변화를 계산한다.
